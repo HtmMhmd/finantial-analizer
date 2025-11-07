@@ -1,0 +1,8 @@
+pydantic
+openai
+crewai
+crewai-tools
+landingai-ade
+python-dotenv
+langchain-openai
+langchain-groq
