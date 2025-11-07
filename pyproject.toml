@@ -1,0 +1,24 @@
+[project]
+name = "doc_analizer"
+version = "0.1.0"
+description = "doc_analizer using crewAI"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+requires-python = ">=3.10,<3.14"
+dependencies = [
+    "crewai[tools]==1.3.0"
+]
+
+[project.scripts]
+doc_analizer = "doc_analizer.main:run"
+run_crew = "doc_analizer.main:run"
+train = "doc_analizer.main:train"
+replay = "doc_analizer.main:replay"
+test = "doc_analizer.main:test"
+run_with_trigger = "doc_analizer.main:run_with_trigger"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.crewai]
+type = "crew"
