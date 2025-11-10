@@ -1,0 +1,28 @@
+services:
+  doc-analyzer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: doc-analyzer:latest
+    container_name: doc-analyzer
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - GROQ_API_KEY=${GROQ_API_KEY:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - LANDINGAI_API_KEY=${LANDINGAI_API_KEY:-}
+      - PUSHOVER_USER_KEY=${PUSHOVER_USER_KEY:-}
+      - PUSHOVER_API_TOKEN=${PUSHOVER_API_TOKEN:-}
+      - OPENAI_MODEL_NAME=${OPENAI_MODEL_NAME:-gpt-4}
+      - GROQ_MODEL_NAME=${GROQ_MODEL_NAME:-llama3-70b-8192}
+      - DOC_INPUT_ROOT=/app/data
+      - OUTPUT_DIR=/app/output
+    volumes:
+      - ./output:/app/output
+      - ./tests/sample_pdfs:/app/sample_pdfs:ro
+    stdin_open: true
+    tty: true
+    restart: "no"
+    # command: ["python", "run_agent.py", "--doc", "sample_pdfs/NASDAQ_TSLA_2024.pdf"]
+    command: ["python", "run_agent.py", "--doc", "sample_pdfs/Small-Foundation-Annual-Report-2019.pdf"]
+# To run the doc-analyzer service, use the following command:
+# docker-compose up doc-analyzer
