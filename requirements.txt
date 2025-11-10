@@ -1,6 +1,7 @@
 pydantic
 openai
 crewai
+crewai[google-genai]
 crewai-tools
 landingai-ade
 python-dotenv

@@ -7,7 +7,10 @@ extract_documents:
     unreadable or low-confidence content in an issues list. Normalize monetary
     values to their stated currency and explicitly note any conversions performed.
   expected_output: >
-    "JSON array where each element contains metadata, key_value_pairs, tables, narratives, attachments, and issues while preserving original context and units"
+    "JSON array; each element is an object with keys: metadata{filename,pages,currency_code},
+    key_value_pairs[{key,value,unit,page,locator}], tables[{title,page,locator,headers,rows,units,footnotes}],
+    narratives[{text,page,locator}], attachments[{type,page,description}], issues[{type,message,page,locator,confidence}].
+    Numeric fidelity and currency symbols preserved; unknown values are null with an issues[] entry."
   agent: document_extractor
 
 
@@ -20,7 +23,8 @@ analyze_financial_data:
     and forward-looking scenarios (base, downside, upside). Summarize the material
     drivers impacting stakeholders and flag data gaps that require clarification.
   expected_output: >
-    "Structured JSON with sections: executive_summary, metrics (with formula, value, source), analysis_notes, risk_assessment, scenario_analysis, recommendations, data_gaps"
+    "Structured JSON with sections: executive_summary, metrics (each with name, formula, value, unit, interpretation, source),
+    risk_assessment, scenario_analysis (base, downside, upside), recommendations (with priority), data_gaps, pushover_summary (<=500 chars)."
   agent: financial_analyst
   output_file: output/{analysis_type}_analyze.md
   
@@ -34,10 +38,8 @@ generate_report:
     with call-outs. Ensure the narrative flows logically from executive summary to
     appendix and that accessibility best practices are applied.
     
-    IMPORTANT: After generating the complete report, you MUST use the pushover_notifier
-    tool to send a notification to stakeholders. The notification should include:
-    - Title: Brief description of the analysis type (e.g., "Personal Loan Analysis Complete")
-    - Message: Executive summary with key findings, critical metrics, and top recommendations
+  IMPORTANT: After generating the complete report, you MUST call pushover_notifier using
+    the pushover_summary produced by the analyst.
   expected_output: >
     "Markdown document containing Executive Summary, Company Snapshot, Financial Highlights, 
     Risk & Compliance, Scenario Analysis, Recommendations, Appendix with cited sources.

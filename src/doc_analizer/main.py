@@ -18,8 +18,8 @@ def run():
     Run the crew.
     """
     inputs = {
-        'file_paths': ['/workspaces/doc_analizer/tests/sample_pdfs/Personal-Loan-Application-Form.pdf'],
-        'analysis_type': 'personal_loan_application_review',
+        'file_paths': ['/workspaces/doc_analizer/tests/sample_pdfs/NASDAQ_TSLA_2024.pdf'],
+        'analysis_type': 'tesla annual financial report',
     }
 
     try:
