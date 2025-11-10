@@ -33,7 +33,14 @@ generate_report:
     reference original document sources, and elevate urgent risks or opportunities
     with call-outs. Ensure the narrative flows logically from executive summary to
     appendix and that accessibility best practices are applied.
+    
+    IMPORTANT: After generating the complete report, you MUST use the pushover_notifier
+    tool to send a notification to stakeholders. The notification should include:
+    - Title: Brief description of the analysis type (e.g., "Personal Loan Analysis Complete")
+    - Message: Executive summary with key findings, critical metrics, and top recommendations
   expected_output: >
-    "Markdown document containing Executive Summary, Company Snapshot, Financial Highlights, Risk & Compliance, Scenario Analysis, Recommendations, Appendix with cited sources"
+    "Markdown document containing Executive Summary, Company Snapshot, Financial Highlights, 
+    Risk & Compliance, Scenario Analysis, Recommendations, Appendix with cited sources.
+    Additionally, a Pushover notification must be sent with the executive summary and key findings."
   agent: report_generator
   output_file: output/{analysis_type}_report.md

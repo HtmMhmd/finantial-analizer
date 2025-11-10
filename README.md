@@ -20,7 +20,11 @@ crewai install
 ```
 ### Customizing
 
-**Add your `OPENAI_API_KEY` into the `.env` file**
+**Add your API keys into the `.env` file**
+
+- `OPENAI_API_KEY` for OpenAI models
+- `OPENROUTER_API_KEY` (and optionally `OPENROUTER_BASE_URL`, `OPENROUTER_MODEL`, `OPENROUTER_HTTP_REFERER`, `OPENROUTER_APP_TITLE`) for OpenRouter models
+- `PUSHOVER_USER` and `PUSHOVER_TOKEN` to enable push notifications
 
 - Modify `src/doc_analizer/config/agents.yaml` to define your agents
 - Modify `src/doc_analizer/config/tasks.yaml` to define your tasks

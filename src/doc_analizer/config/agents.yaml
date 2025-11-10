@@ -16,8 +16,9 @@ document_extractor:
     4. Highlight missing or unreadable content in an "issues" array.
   tools:
     - landing_ai_document_extractor
-  llm: openai/gpt-4o-mini
-  max_iter: 3
+  # llm: openrouter/meta-llama/llama-3.1-8b-instruct
+  llm: openrouter/qwen/qwen3-30b-a3b
+  max_iter: 2
 
 financial_analyst:
   role: >
@@ -34,18 +35,19 @@ financial_analyst:
     2. Compute profitability, liquidity, leverage, efficiency, and cash coverage ratios.
     3. Assess covenant compliance, risk flags, and forward-looking scenarios.
     4. Summarize implications for stakeholders and prioritize recommendations.
-  llm: openai/gpt-4o-mini
-  max_iter: 3
+  llm:  openrouter/qwen/qwen3-30b-a3b
+  max_iter: 2
 
 report_generator:
   role: >
     "Financial Report Writer"
   goal: >
-    "Synthesize analysis outputs into a polished stakeholder-ready financial report"
+    "Synthesize analysis outputs into a polished stakeholder-ready financial report and deliver it via Pushover notification"
   backstory: >
     You are a veteran financial communicator who turns dense analysis into clear,
     decision-grade narratives. You champion consistency, visual clarity, and
-    traceability back to the underlying evidence.
+    traceability back to the underlying evidence. After completing reports, you
+    ensure stakeholders are immediately notified through Pushover.
   verbose: true
   report_format: >
     "Deliver a Markdown report with the following sections: Executive Summary,
@@ -57,5 +59,12 @@ report_generator:
     Maintain a concise, decision-focused tone; surface the headline insight first,
     then supporting evidence. Use bullets for key findings, short paragraphs for
     context, and insert call-outs for urgent risks or opportunities.
-  llm: openai/gpt-4o-mini
+  notification_requirements: >
+    After completing the report, ALWAYS use the pushover_notifier tool to send
+    a notification with the executive summary and key findings. Format the notification
+    with a clear title indicating the analysis type and include the most critical
+    insights from the report.
+  tools:
+    - pushover_notifier
+  llm: openrouter/qwen/qwen3-30b-a3b
   max_iter: 2

@@ -3,7 +3,7 @@ from crewai.project import CrewBase, agent, crew, task, tool
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from typing import List
 
-from doc_analizer.tools import LandingAIDocumentExtractor
+from doc_analizer.tools import LandingAIDocumentExtractor, PushoverNotifier
 
 from . import llm
 
@@ -27,14 +27,15 @@ class DocAnalizer():
     def financial_analyst(self) -> Agent:
         return Agent(
             config=self.agents_config['financial_analyst'], # type: ignore[index]
-            verbose=True
+            verbose=True,
         )
 
     @agent
     def report_generator(self) -> Agent:
         return Agent(
             config=self.agents_config['report_generator'], # type: ignore[index]
-            verbose=True
+            verbose=True,
+            tools=[PushoverNotifier()],
         )
 
     @task
@@ -59,6 +60,10 @@ class DocAnalizer():
     @tool
     def landing_ai_document_extractor(self) -> LandingAIDocumentExtractor:
         return LandingAIDocumentExtractor()
+
+    @tool
+    def pushover_notifier(self) -> PushoverNotifier:
+        return PushoverNotifier()
 
     @crew
     def crew(self) -> Crew:

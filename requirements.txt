@@ -6,3 +6,5 @@ landingai-ade
 python-dotenv
 langchain-openai
 langchain-groq
+requests
+litellm
