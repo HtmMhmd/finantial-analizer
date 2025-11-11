@@ -16,16 +16,16 @@ Outputs: Two Markdown files in `output/`:
 ## 2) Architecture overview (diagram)
 ```mermaid
 graph TD
-  U((User)) -->|PDF(s)| D[/documents/]
+  U[User] -->|"PDFs"| D[documents]
   D --> EX[Extraction Agent]
-  EX -->|JSON+Provenance| AN[Financial Analyst Agent]
-  AN -->|Metrics+Scenarios| RG[Report Generator Agent]
-  RG -->|Markdown Report| O[(output/)]
+  EX -->|"JSON + provenance"| AN[Financial Analyst Agent]
+  AN -->|"Metrics + scenarios"| RG[Report Generator Agent]
+  RG -->|"Markdown report"| O[output]
 
-  EX -.calls.-> ADE[(LandingAI ADE API)]
-  AN -.prompts.-> LLM[(LLM Provider)]
-  AN -.computes.-> CALC[(Calculator Tool)]
-  RG -.optional.-> PUSH[(Pushover)]
+  EX -. calls .-> ADE[LandingAI ADE API]
+  AN -. prompts .-> LLM[LLM Provider]
+  AN -. computes .-> CALC[Calculator Tool]
+  RG -. optional .-> PUSH[Pushover]
 
   classDef ext fill:#F6F8FF,stroke:#6B8EFF;
   classDef api fill:#FFF7E6,stroke:#FFB020;
@@ -38,7 +38,7 @@ graph TD
 flowchart LR
   A([Start]) --> B[Parse CLI args / env]
   B --> C{All documents exist?}
-  C -- No --> E[[Exit with error]]
+  C -- No --> E[Exit with error]
   C -- Yes --> D[Create output directory]
   D --> F[Run CrewAI pipeline]
   F --> X[Extraction]
@@ -53,7 +53,7 @@ flowchart LR
 sequenceDiagram
   autonumber
   participant U as User
-  participant CLI as run_agent.py
+  participant CLI as CLI Runner
   participant Crew as CrewAI Orchestrator
   participant Ext as document_extractor
   participant Ana as financial_analyst
@@ -79,7 +79,7 @@ sequenceDiagram
   Crew->>Rep: generate_report(analysis JSON)
   Rep->>LLM: Draft Markdown sections
   LLM-->>Rep: Markdown content
-  Rep-->>CLI: Write <type>_report.md and <type>_analyze.md
+  Rep-->>CLI: Write report and analysis Markdown
   CLI-->>U: Print output directory path
 ```
 
@@ -87,20 +87,20 @@ sequenceDiagram
 ```mermaid
 graph LR
   subgraph Host
-    docs[/./documents/]:::vol
-    out[/./output/]:::vol
-    env> .env ]:::env
+    docs[./documents]:::vol
+    out[./output]:::vol
+    envFile[.env]:::env
   end
 
   subgraph Container[doc-analyzer]
-    data[/app/data/]:::bind
-    outc[/app/output/]:::bind
+    data[/app/data]:::bind
+    outc[/app/output]:::bind
     run[python run_agent.py]:::proc
   end
 
-  docs -- bind:ro --> data
-  out -- bind:rw --> outc
-  env -. env-file .-> Container
+  docs -- "bind:ro" --> data
+  out -- "bind:rw" --> outc
+  envFile -. "env-file" .-> Container
 
   classDef vol fill:#F0FFF4,stroke:#38A169;
   classDef bind fill:#EBF8FF,stroke:#3182CE;

@@ -14,6 +14,7 @@ services:
       - PUSHOVER_API_TOKEN=${PUSHOVER_API_TOKEN:-}
       - OPENAI_MODEL_NAME=${OPENAI_MODEL_NAME:-gpt-4}
       - GROQ_MODEL_NAME=${GROQ_MODEL_NAME:-llama3-70b-8192}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
       - DOC_INPUT_ROOT=/app/data
       - OUTPUT_DIR=/app/output
     volumes:
